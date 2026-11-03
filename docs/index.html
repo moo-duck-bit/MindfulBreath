@@ -271,6 +271,7 @@ async function connectGdx(bluetooth) {
     let msg = String(err && err.message || err);
     if (/cancel|chosen/i.test(msg)) msg = '센서를 선택하지 않았습니다';
     else if (/cross-origin|iframe|permissions policy/i.test(msg)) msg = '임베드된 화면에서는 센서 연결이 막혀 있습니다. 새 창(탭)에서 열어 주세요';
+    else if (/characteristics not found/i.test(msg)) msg = '벨트의 데이터 채널이 다른 연결에 잡혀 있습니다. 벨트 전원을 완전히 껐다 켜고(PC 블루투스도 껐다 켜기), Graphical Analysis 등 다른 앱을 종료한 뒤 다시 시도하세요. USB 케이블로 연결해도 됩니다';
     else if (/GATT|connect/i.test(msg)) msg = '연결 실패: 벨트 전원을 껐다 켜고, Graphical Analysis 등 다른 앱의 연결을 해제한 뒤 다시 시도하세요';
     setStatus(false, '', msg);
   }
