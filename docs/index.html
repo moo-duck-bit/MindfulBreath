@@ -38,9 +38,10 @@
   .led { width: 9px; height: 9px; border-radius: 50%; background: #aaa; }
   .led.on { background: #22c55e; }
   .led.demo { background: #f59e0b; }
-  main { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; position: relative; }
+  main { flex: 1; display: flex; min-height: 0; position: relative; overflow-y: auto; }
   .stage { display: none; flex-direction: column; align-items: center; gap: 14px; }
-  .stage.show { display: flex; }
+  /* margin:auto로 가운데 정렬: 화면이 낮아도 위쪽이 잘리지 않고 스크롤된다 */
+  .stage.show { display: flex; margin: auto; padding: 16px 0; }
 
   /* 기존 OpenCV UI의 흰 프레임 + 검은 테두리 재현 */
   .frame-wrap { position: relative; padding: 56px 84px; }
