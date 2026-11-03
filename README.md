@@ -48,3 +48,29 @@ For questions or collaborations, please contact:
 📧 ohchannah@skku.edu
 
 
+
+---
+
+## Try it online
+
+**https://moo-duck-bit.github.io/MindfulBreath/** — runs entirely in the browser (`docs/`). Open it in desktop Chrome or Edge, then choose **Bluetooth** or **USB** to connect your own GDX-RB belt, or **try without a belt** (simulated breathing). The browser talks to the belt directly via Vernier's godirect-js (Web Bluetooth / WebHID), so no local server is needed. Session data can be downloaded as CSV on the final screen. If the page is embedded in another site, open it in a new tab so the sensor connection is allowed.
+
+---
+
+## Web UI + Go Direct Respiration Belt (GDX-RB, USB)
+
+The original OpenCV interface (`main.py`) is ported to a browser UI that receives live force data from the belt through a local server.
+
+```
+GDX-RB (USB) ──godirect──▶ web/server.py ──SSE /stream──▶ http://localhost:8000 (web/static/index.html)
+```
+
+1. Turn the belt on, wear it around the chest, and connect it with the USB cable or leave Bluetooth on. Over Bluetooth, disconnect the sensor in Vernier Graphical Analysis first (only one app can stream from the belt at a time).
+2. Run `run_web.bat` (or `python web/server.py`). Without a belt: `python web/server.py --demo`.
+3. Open **http://localhost:8000** — the status pill turns green when the belt is streaming.
+
+Flow (same as `main.py`): Initialization (20 s, min/max force) → Cycle detection (20 s) → Recommended pace (≈10% slower; `Enter` accept / `S` manual) → Breathing exercise (spine → right arm → left arm → head → right leg → left leg → heart, 2 breaths per region, square pacing path). `Esc` ends a session.
+
+Each run saves `data/force_<time>_gdx.csv` (`Timestamp, Force Value`, as in `main.py`) and `data/events_<time>_gdx.csv` (stage changes, recommended/accepted pace, sections, participant ID) for usability evaluation.
+
+Options: `--link auto|usb|ble` (default auto: USB first, then Bluetooth), `--port 8000`, `--sensor 1` (1: Force N), `--period 50` (sampling ms).
